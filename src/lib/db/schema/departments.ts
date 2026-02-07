@@ -1,12 +1,19 @@
 import {
-    boolean,
     char,
-    integer,
+    jsonb,
     pgTable,
     serial,
     text,
     varchar,
 } from "drizzle-orm/pg-core";
+
+export type FacilityPoints = { title: string; displayOrder?: number };
+export type Facilities = {
+    name: string;
+    description?: string;
+    isActive: boolean;
+    facilityPoints: FacilityPoints[];
+};
 
 export const departments = pgTable("departments", {
     id: serial("id").primaryKey(),
@@ -16,35 +23,9 @@ export const departments = pgTable("departments", {
     phone: char("phone", { length: 10 }).notNull().unique(),
 
     description: text("description"),
+
+    facilities: jsonb("facilities").$type<Facilities[]>().notNull(),
 });
 
-export const facilities = pgTable("facilities", {
-    id: serial("id").primaryKey(),
-
-    departmentId: integer("department_id")
-        .notNull()
-        .references(() => departments.id, { onDelete: "restrict" }),
-
-    name: varchar("name", { length: 150 }).notNull(),
-    description: text("description"),
-
-    isActive: boolean("is_active").notNull().default(true),
-});
-
-export const facilityPoints = pgTable("facility_points", {
-    id: serial("id").primaryKey(),
-
-    facilityId: integer("facility_id")
-        .notNull()
-        .references(() => facilities.id, { onDelete: "cascade" }),
-
-    title: text("title").notNull(),
-    displayOrder: integer("display_order").notNull().default(0),
-});
-
-export type FacilityPoint = typeof facilityPoints.$inferSelect;
-export type NewFacilityPoint = typeof facilityPoints.$inferInsert;
-export type Facility = typeof facilities.$inferSelect;
-export type NewFacility = typeof facilities.$inferInsert;
 export type Department = typeof departments.$inferSelect;
 export type NewDepartment = typeof departments.$inferInsert;
