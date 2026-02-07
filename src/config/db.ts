@@ -1,5 +1,5 @@
-import { ENV } from "@/config/env";
 import { Pool } from "pg";
+import { ENV } from "./env";
 
 // Create a connection pool
 export const pool = new Pool({
