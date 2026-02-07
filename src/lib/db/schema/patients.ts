@@ -1,7 +1,8 @@
 import {
+    bloodGroupEnum,
+    genderEnum,
     patientDocumentTypeEnum,
     patientDocumentUploadedByEnum,
-    patientGenderEnum,
 } from "@/lib/db/enums";
 import { char, date, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { timestamps } from "./timestamps";
@@ -12,13 +13,15 @@ export const patients = pgTable("patients", {
         .primaryKey()
         .references(() => users.id, { onDelete: "cascade" }),
 
-    name: varchar("name", { length: 255 }).notNull(),
     dob: date("dob").notNull(),
+    gender: genderEnum("gender").notNull(),
+    bloodGroup: bloodGroupEnum("blood_group").notNull(),
+    heightCm: varchar("height_cm", { length: 3 }),
+    weightKg: varchar("weight_kg", { length: 3 }),
+    allergies: text("allergies"),
+    chronicConditions: text("chronic_conditions"),
+
     address: text("address").notNull(),
-
-    gender: patientGenderEnum("gender").notNull(),
-    bloodGroup: varchar("blood_group", { length: 3 }),
-
     emergencyContact: char("emergency_contact", { length: 10 }),
 });
 

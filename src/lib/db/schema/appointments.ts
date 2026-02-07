@@ -1,5 +1,5 @@
 import { appointmentStatusEnum, appointmentTypeEnum } from "@/lib/db/enums";
-import { date, pgTable, time, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { timestamps } from "./timestamps";
 import { users } from "./users";
 
@@ -13,11 +13,9 @@ export const appointments = pgTable("appointments", {
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),
 
-    appointmentType: appointmentTypeEnum("appointment_type")
-        .notNull()
-        .default("in_person"),
-    scheduledDate: date("scheduled_date").notNull(),
-    scheduledTime: time("scheduled_time").notNull(),
+    type: appointmentTypeEnum("type").notNull().default("in_person"),
+    scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(),
+    durationMinutes: integer("duration_minutes").notNull().default(30),
 
     status: appointmentStatusEnum("status").notNull().default("pending"),
 

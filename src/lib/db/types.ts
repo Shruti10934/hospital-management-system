@@ -1,9 +1,20 @@
+// General
+export const Gender = ["male", "female", "other"] as const;
+export const BloodGroup = [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-",
+] as const;
+
 // User Types
-export const UserStatus = ["active", "inactive"] as const;
 export const UserRole = ["admin", "doctor", "patient"] as const;
 
 // Patient Types
-export const PatientGender = ["male", "female", "other"] as const;
 export const PatientDocumentType = ["report", "prescription", "other"] as const;
 export const PatientDocumentUploadedBy = ["patient", "doctor"] as const;
 
@@ -33,4 +44,11 @@ export const OrderStatus = [
     "processed",
     "completed",
     "cancelled",
+] as const;
+
+// Pharmacy Types
+export const PharmacyCategory = [
+    "medicine",
+    "equipment",
+    "consumables",
 ] as const;

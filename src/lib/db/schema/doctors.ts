@@ -7,6 +7,7 @@ import {
     text,
     time,
     uuid,
+    varchar,
 } from "drizzle-orm/pg-core";
 import { departments } from "./departments";
 import { users } from "./users";
@@ -20,14 +21,22 @@ export const doctors = pgTable("doctors", {
         onDelete: "set null",
     }),
 
+    licenseNumber: varchar("license_number", { length: 255 })
+        .notNull()
+        .unique(),
     qualifications: text("qualifications").notNull(),
+    specialization: varchar("specialization", { length: 255 }).notNull(),
     experienceYears: integer("experience_years").notNull(),
-    bio: text("bio").notNull(),
+    bio: text("bio"),
+    avatarUrl: varchar("avatar_url", { length: 500 }),
 
-    consultationFee: decimal("consultation_fee", {
-        precision: 10,
-        scale: 2,
-    }).notNull(),
+    baseSalary: decimal("base_salary", { precision: 12, scale: 2 }).notNull(),
+    commissionRate: decimal("commission_rate", { precision: 5, scale: 2 })
+        .notNull()
+        .default("5.00"),
+    consultationFee: decimal("consultation_fee", { precision: 10, scale: 2 })
+        .notNull()
+        .default("500.00"),
 
     isActive: boolean("is_active").notNull().default(true),
 });
@@ -39,7 +48,7 @@ export const doctorAvailability = pgTable("doctor_availability", {
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),
 
-    dayOfWeek: integer("day_of_week").notNull(),
+    workingDays: varchar("working_days", { length: 255 }).notNull(),
     startTime: time("start_time").notNull(),
     endTime: time("end_time").notNull(),
     slotDurationMinutes: integer("slot_duration_minutes").notNull(),

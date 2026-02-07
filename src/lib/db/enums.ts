@@ -1,22 +1,25 @@
 import {
     AppointmentStatus,
     AppointmentType,
+    BloodGroup,
+    Gender,
     OrderStatus,
     PatientDocumentType,
     PatientDocumentUploadedBy,
-    PatientGender,
     PaymentStatus,
+    PharmacyCategory,
     UserRole,
-    UserStatus,
 } from "@/lib/db/types";
 import { pgEnum } from "drizzle-orm/pg-core";
 
+// General
+export const genderEnum = pgEnum("gender", Gender);
+export const bloodGroupEnum = pgEnum("blood_group", BloodGroup);
+
 // User Enums
 export const userRoleEnum = pgEnum("user_role", UserRole);
-export const userStatusEnum = pgEnum("user_status", UserStatus);
 
 // Patient Enums
-export const patientGenderEnum = pgEnum("patient_gender", PatientGender);
 export const patientDocumentTypeEnum = pgEnum(
     "patient_document_type",
     PatientDocumentType
@@ -38,3 +41,9 @@ export const paymentStatusEnum = pgEnum("payment_status", PaymentStatus);
 
 // Order Enums
 export const orderStatusEnum = pgEnum("order_status", OrderStatus);
+
+// Pharmacy Enums
+export const pharmacyCategoryEnum = pgEnum(
+    "pharmacy_category",
+    PharmacyCategory
+);

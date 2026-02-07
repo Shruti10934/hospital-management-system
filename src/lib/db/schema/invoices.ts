@@ -15,8 +15,15 @@ export const invoices = pgTable("invoices", {
 
     invoiceNumber: varchar("invoice_number", { length: 255 }).unique(),
 
-    amount: decimal("amount", { precision: 10, scale: 2 }),
-    tax: decimal("tax", { precision: 10, scale: 2 }),
+    subtotal: decimal("subtotal", { precision: 12, scale: 2 }).notNull(),
+    taxAmount: decimal("tax_amount", { precision: 12, scale: 2 })
+        .notNull()
+        .default("0"),
+    discount: decimal("discount", { precision: 12, scale: 2 })
+        .notNull()
+        .default("0"),
+    totalAmount: decimal("total_amount", { precision: 12, scale: 2 }).notNull(),
+
     pdfUrl: text("pdf_url"),
 
     createdAt: timestamps.createdAt,
