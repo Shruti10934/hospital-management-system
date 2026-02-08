@@ -13,7 +13,7 @@ import {
     TicketPriority,
     TicketStatus,
     UserRole,
-} from "@/lib/db/types";
+} from "@/db/types";
 import { pgEnum } from "drizzle-orm/pg-core";
 
 // General
