@@ -23,44 +23,49 @@ import { useTheme } from "next-themes";
 
 const navItems = [
     {
-        label: "Patients & Visitors",
-        href: "/patients",
+        label: "Home",
+        href: "/",
         children: [
-            { label: "Visiting Hours", href: "/patients/visiting-hours" },
-            { label: "Patient Portal", href: "/patients/portal" },
-            { label: "Billing & Insurance", href: "/patients/billing" },
-            { label: "Medical Records", href: "/patients/records" },
+            { label: "About Hospital", href: "/#about" },
+            { label: "Vision & Mission", href: "/#vision-mission" },
+            { label: "Accreditations", href: "/#accreditations" },
+            { label: "Infrastructure", href: "/#infrastructure" },
         ],
     },
     {
-        label: "Areas of Care",
-        href: "/care",
+        label: "Departments",
+        href: "/departments",
         children: [
-            { label: "Cardiology", href: "/care/cardiology" },
-            { label: "Orthopedics", href: "/care/orthopedics" },
-            { label: "Neurology", href: "/care/neurology" },
-            { label: "Pediatrics", href: "/care/pediatrics" },
+            { label: "Cardiology", href: "/departments/cardiology" },
+            { label: "Orthopedics", href: "/departments/orthopedics" },
+            { label: "Neurology", href: "/departments/neurology" },
+            { label: "Pediatrics", href: "/departments/pediatrics" },
+            { label: "Ophthalmology", href: "/departments/ophthalmology" },
+            { label: "Pharmacy", href: "/departments/pharmacy" },
+            { label: "Diagnostics", href: "/departments/diagnostics" },
+            { label: "General Medicine", href: "/departments/general-medicine" },
         ],
     },
     {
-        label: "Find a Doctor",
-        href: "/doctors",
+        label: "Doctors",
+        href: "/our-doctors",
     },
     {
-        label: "Locations",
-        href: "/locations",
-    },
-    {
-        label: "About Us",
-        href: "/about",
+        label: "Services",
+        href: "/services",
         children: [
-            { label: "Our Mission", href: "/about/mission" },
-            { label: "Leadership", href: "/about/leadership" },
-            { label: "Careers", href: "/about/careers" },
-            { label: "News & Events", href: "/about/news" },
+            { label: "Emergency Care", href: "/services/emergency" },
+            { label: "Diagnostics & Labs", href: "/services/diagnostics" },
+            { label: "Health Packages", href: "/services/health-packages" },
+            { label: "Outpatient Care", href: "/services/outpatient" },
+            { label: "Vaccination Services", href: "/services/vaccinations" },
+            { label: "Laboratory Services", href: "/services/laboratory" },
+            { label: "Physiotherapy", href: "/services/physiotherapy" },
+            { label: "Insurance & TPA", href: "/services/insurance" },
         ],
     },
 ];
+
 
 export function MainNav() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -89,32 +94,72 @@ export function MainNav() {
                     <nav className="hidden lg:flex items-center gap-1">
                         {navItems.map((item) =>
                             item.children ? (
-                                <DropdownMenu key={item.label}>
-                                    <DropdownMenuTrigger asChild>
+                                item.label === "Home" || item.label === "Departments" || item.label === "Services" ? (
+                                    // Special handling for Home, Departments & Services: Label links to href, only arrow opens dropdown
+                                    <div key={item.label} className="flex items-center">
                                         <Button
                                             variant="ghost"
-                                            className="text-foreground/80 hover:text-foreground hover:bg-accent"
+                                            asChild
+                                            className="text-foreground/80 hover:text-foreground hover:bg-accent pr-1"
                                         >
-                                            {item.label}
-                                            <ChevronDown className="w-4 h-4 ml-1" />
+                                            <Link href={item.href}>{item.label}</Link>
                                         </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="start"
-                                        className="w-48"
-                                    >
-                                        {item.children.map((child) => (
-                                            <DropdownMenuItem
-                                                key={child.label}
-                                                asChild
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-9 w-6 text-foreground/80 hover:text-foreground hover:bg-accent"
+                                                >
+                                                    <ChevronDown className="w-4 h-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                align="start"
+                                                className="w-48"
                                             >
-                                                <Link href={child.href}>
-                                                    {child.label}
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        ))}
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                                {item.children.map((child) => (
+                                                    <DropdownMenuItem
+                                                        key={child.label}
+                                                        asChild
+                                                    >
+                                                        <Link href={child.href}>
+                                                            {child.label}
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                ) : (
+                                    // Standard dropdown for other items
+                                    <DropdownMenu key={item.label}>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                className="text-foreground/80 hover:text-foreground hover:bg-accent"
+                                            >
+                                                {item.label}
+                                                <ChevronDown className="w-4 h-4 ml-1" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent
+                                            align="start"
+                                            className="w-48"
+                                        >
+                                            {item.children.map((child) => (
+                                                <DropdownMenuItem
+                                                    key={child.label}
+                                                    asChild
+                                                >
+                                                    <Link href={child.href}>
+                                                        {child.label}
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                )
                             ) : (
                                 <Button
                                     key={item.label}
