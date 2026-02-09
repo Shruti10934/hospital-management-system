@@ -43,7 +43,10 @@ const navItems = [
             { label: "Ophthalmology", href: "/departments/ophthalmology" },
             { label: "Pharmacy", href: "/departments/pharmacy" },
             { label: "Diagnostics", href: "/departments/diagnostics" },
-            { label: "General Medicine", href: "/departments/general-medicine" },
+            {
+                label: "General Medicine",
+                href: "/departments/general-medicine",
+            },
         ],
     },
     {
@@ -65,7 +68,6 @@ const navItems = [
         ],
     },
 ];
-
 
 export function MainNav() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -92,17 +94,24 @@ export function MainNav() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center gap-1">
-                        {navItems.map((item) =>
+                        {navItems.map(item =>
                             item.children ? (
-                                item.label === "Home" || item.label === "Departments" || item.label === "Services" ? (
+                                item.label === "Home" ||
+                                item.label === "Departments" ||
+                                item.label === "Services" ? (
                                     // Special handling for Home, Departments & Services: Label links to href, only arrow opens dropdown
-                                    <div key={item.label} className="flex items-center">
+                                    <div
+                                        key={item.label}
+                                        className="flex items-center"
+                                    >
                                         <Button
                                             variant="ghost"
                                             asChild
                                             className="text-foreground/80 hover:text-foreground hover:bg-accent pr-1"
                                         >
-                                            <Link href={item.href}>{item.label}</Link>
+                                            <Link href={item.href}>
+                                                {item.label}
+                                            </Link>
                                         </Button>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -118,7 +127,7 @@ export function MainNav() {
                                                 align="start"
                                                 className="w-48"
                                             >
-                                                {item.children.map((child) => (
+                                                {item.children.map(child => (
                                                     <DropdownMenuItem
                                                         key={child.label}
                                                         asChild
@@ -147,7 +156,7 @@ export function MainNav() {
                                             align="start"
                                             className="w-48"
                                         >
-                                            {item.children.map((child) => (
+                                            {item.children.map(child => (
                                                 <DropdownMenuItem
                                                     key={child.label}
                                                     asChild
@@ -209,6 +218,23 @@ export function MainNav() {
                             </Link>
                         </Button>
 
+                        {/* Login Button */}
+                        <Button
+                            asChild
+                            className="hidden sm:flex bg-corporate-blue hover:bg-corporate-blue/90 text-white rounded-full px-4"
+                        >
+                            <Link href="/login">Login</Link>
+                        </Button>
+
+                        {/* Register Button */}
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="hidden sm:flex rounded-full px-4"
+                        >
+                            <Link href="/register">Register</Link>
+                        </Button>
+
                         {/* Mobile Menu Toggle */}
                         <Button
                             variant="ghost"
@@ -229,7 +255,7 @@ export function MainNav() {
                 {mobileMenuOpen && (
                     <div className="lg:hidden py-4 border-t border-border">
                         <nav className="flex flex-col gap-2">
-                            {navItems.map((item) => (
+                            {navItems.map(item => (
                                 <div key={item.label}>
                                     <Link
                                         href={item.href}
@@ -240,7 +266,7 @@ export function MainNav() {
                                     </Link>
                                     {item.children && (
                                         <div className="ml-4 mt-1 space-y-1">
-                                            {item.children.map((child) => (
+                                            {item.children.map(child => (
                                                 <Link
                                                     key={child.label}
                                                     href={child.href}
@@ -256,6 +282,20 @@ export function MainNav() {
                                     )}
                                 </div>
                             ))}
+                            <Link
+                                href="/login"
+                                className="mx-4 flex items-center justify-center gap-2 px-4 py-2 bg-corporate-blue text-white rounded-full font-medium hover:bg-corporate-blue/90"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/register"
+                                className="mx-4 flex items-center justify-center gap-2 px-4 py-2 border border-border rounded-full font-medium text-foreground hover:bg-accent"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Register
+                            </Link>
                             <Link
                                 href="/emergency"
                                 className="mt-2 mx-4 flex items-center justify-center gap-2 px-4 py-2 bg-emergency text-white rounded-full font-medium"
