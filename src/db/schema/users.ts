@@ -40,7 +40,7 @@ export const verificationTokens = pgTable(
             .notNull()
             .references(() => users.id, { onDelete: "cascade" }),
 
-        token: varchar("token", { length: 255 }).notNull(),
+        token: varchar("token", { length: 255 }).notNull().unique(),
         type: verificationTokenTypeEnum("type").notNull(),
         expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 
@@ -52,7 +52,23 @@ export const verificationTokens = pgTable(
     ]
 );
 
+export const refreshTokens = pgTable(
+    "refresh_tokens",
+    {
+        tokenHash: varchar("token_hash", { length: 255 }).primaryKey(),
+        userId: uuid("user_id")
+            .notNull()
+            .references(() => users.id, { onDelete: "cascade" }),
+        expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+
+        createdAt: timestamps.createdAt,
+    },
+    table => [index("idx_refresh_tokens_user_id").on(table.userId)]
+);
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type VerificationToken = typeof verificationTokens.$inferSelect;
 export type NewVerificationToken = typeof verificationTokens.$inferInsert;
+export type RefreshToken = typeof refreshTokens.$inferSelect;
+export type NewRefreshToken = typeof refreshTokens.$inferInsert;

@@ -16,6 +16,7 @@ export const UserRole = ["admin", "doctor", "patient"] as const;
 export const VerificationTokenType = [
     "email_verification",
     "password_reset",
+    "email_authentication",
 ] as const;
 
 // Patient Types
