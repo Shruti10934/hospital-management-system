@@ -11,12 +11,6 @@ export {
     verifyRefreshToken,
 } from "./jwt";
 export { hashPassword, verifyPassword } from "./password";
-export {
-    generateOTP,
-    getOTPExpiresAt,
-    getRefreshTokenExpiresAt,
-    hashToken,
-} from "./tokens";
 export type {
     AccessTokenPayload,
     AppJWTPayload,
@@ -27,3 +21,4 @@ export type {
     TokenPair,
     TokenType,
 } from "./types";
+export { generateVerificationToken, hashToken } from "./utils";

@@ -1,12 +1,16 @@
+import { ENV } from "@/config";
 import { ApiError } from "@/lib/api";
+import crypto from "crypto";
 import { JWTPayload } from "jose";
 import { AppJWTPayload } from "./types";
 
 // JWT Utilities
+// -- Encode Secret
 export function encode(secret: string): Uint8Array {
     return new TextEncoder().encode(secret);
 }
 
+// -- Validate Payload
 export function assertPayload(
     payload: JWTPayload
 ): asserts payload is AppJWTPayload {
@@ -32,4 +36,21 @@ export function parseDurationToSeconds(duration: string): number {
         default:
             return 900;
     }
+}
+
+// Verification Token Utilities
+// -- Random 6-digit Token
+export function generateVerificationToken(): string {
+    const length = ENV.AUTH.VERIFICATION.LENGTH;
+
+    const buffer = crypto.randomBytes(4);
+    const num = buffer.readUInt32BE(0) % Math.pow(10, length);
+
+    return num.toString().padStart(length, "0");
+}
+
+// Refresh Token Utilities
+// -- Hash Token
+export function hashToken(token: string): string {
+    return crypto.createHash("sha256").update(token).digest("hex");
 }
