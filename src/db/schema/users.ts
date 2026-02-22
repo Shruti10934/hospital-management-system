@@ -7,7 +7,7 @@ import {
     uuid,
     varchar,
 } from "drizzle-orm/pg-core";
-import { userRoleEnum, verificationTokenTypeEnum } from "./enums";
+import { userRoleEnum, verificationCodeTypeEnum } from "./enums";
 import { timestamps } from "./timestamps";
 
 export const users = pgTable(
@@ -32,23 +32,23 @@ export const users = pgTable(
     table => [index("idx_users_role").on(table.role)]
 );
 
-export const verificationTokens = pgTable(
-    "verification_tokens",
+export const verificationCodes = pgTable(
+    "verification_codes",
     {
         id: uuid("id").primaryKey().defaultRandom(),
         userId: uuid("user_id")
             .notNull()
             .references(() => users.id, { onDelete: "cascade" }),
 
-        token: varchar("token", { length: 255 }).notNull().unique(),
-        type: verificationTokenTypeEnum("type").notNull(),
+        code: varchar("code", { length: 255 }).notNull().unique(),
+        type: verificationCodeTypeEnum("type").notNull(),
         expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 
         createdAt: timestamps.createdAt,
     },
     table => [
-        index("idx_verification_tokens_user_id").on(table.userId),
-        index("idx_verification_tokens_token").on(table.token),
+        index("idx_verification_code_user_id").on(table.userId),
+        index("idx_verification_code_code").on(table.code),
     ]
 );
 
@@ -68,7 +68,7 @@ export const refreshTokens = pgTable(
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
-export type VerificationToken = typeof verificationTokens.$inferSelect;
-export type NewVerificationToken = typeof verificationTokens.$inferInsert;
+export type VerificationCode = typeof verificationCodes.$inferSelect;
+export type NewVerificationCode = typeof verificationCodes.$inferInsert;
 export type RefreshToken = typeof refreshTokens.$inferSelect;
 export type NewRefreshToken = typeof refreshTokens.$inferInsert;

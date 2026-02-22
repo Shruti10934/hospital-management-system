@@ -38,9 +38,9 @@ export function parseDurationToSeconds(duration: string): number {
     }
 }
 
-// Verification Token Utilities
-// -- Random 6-digit Token
-export function generateVerificationToken(): string {
+// Verification Code Utilities
+// -- Random 6-digit Code
+export function generateVerificationCode(): string {
     const length = ENV.AUTH.VERIFICATION.LENGTH;
 
     const buffer = crypto.randomBytes(4);
