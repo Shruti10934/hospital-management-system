@@ -19,7 +19,7 @@ function isPublicApiPath(pathname: string): boolean {
     );
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const path = req.nextUrl.pathname;
 
     // Allow non-API routes

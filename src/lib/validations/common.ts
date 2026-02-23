@@ -26,7 +26,12 @@ export const phoneSchema = z
     .string()
     .regex(/^\d{10}$/, "Phone number must be exactly 10 digits");
 
+export const roleSchema = z.enum(["patient", "doctor"], {
+    error: "Invalid role",
+});
+
 export type IdParam = z.infer<typeof idParamSchema>;
 export type Name = z.infer<typeof nameSchema>;
 export type Email = z.infer<typeof emailSchema>;
 export type Phone = z.infer<typeof phoneSchema>;
+export type Role = z.infer<typeof roleSchema>;
