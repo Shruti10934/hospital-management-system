@@ -21,4 +21,8 @@ export * from "./cookies";
 export * from "./jwt";
 export * from "./password";
 export * from "./types";
-export { generateVerificationCode, hashToken } from "./utils";
+export {
+    generateVerificationCode,
+    hashToken,
+    parseDurationToSeconds,
+} from "./utils";
