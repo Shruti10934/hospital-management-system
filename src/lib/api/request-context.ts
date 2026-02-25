@@ -55,19 +55,3 @@ export function buildRequestContext(
         method: request.method,
     };
 }
-
-// Get authorization token from request
-export function getAuthToken(request: NextRequest): string | null {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) return null;
-
-    const [type, token] = authHeader.split(" ");
-    if (type?.toLowerCase() !== "bearer" || !token) return null;
-
-    return token;
-}
-
-// Get cookie from request
-export function getCookie(request: NextRequest, name: string): string | null {
-    return request.cookies.get(name)?.value || null;
-}

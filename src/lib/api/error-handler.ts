@@ -17,27 +17,23 @@ function handleDatabaseError(error: Error): ApiError {
     const message = error.message.toLowerCase();
 
     // Unique constraint
-    if (message.includes("unique") || message.includes("duplicate")) {
+    if (message.includes("unique") || message.includes("duplicate"))
         return ApiError.conflict("Resource already exists");
-    }
 
     // Foreign key constraint
     if (
         message.includes("foreign key") ||
         message.includes("violates foreign key")
-    ) {
+    )
         return ApiError.badRequest("Related resource not found");
-    }
 
     // Not null constraint
-    if (message.includes("not-null") || message.includes("null value")) {
+    if (message.includes("not-null") || message.includes("null value"))
         return ApiError.badRequest("Required field is missing");
-    }
 
     // Connection errors
-    if (message.includes("connection") || message.includes("econnrefused")) {
+    if (message.includes("connection") || message.includes("econnrefused"))
         return ApiError.serviceUnavailable("Database connection failed");
-    }
 
     // Default database error
     return ApiError.internalServerError("Database operation failed");
