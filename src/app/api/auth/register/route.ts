@@ -18,7 +18,7 @@ export const POST = tryCatchWrapper(async (request: NextRequest) => {
 
     return successResponse<RegisterUserResponseType>(
         { user },
-        "Registration successful. Please check your email to verify your account.",
+        "Registered successfully. Please check your email to verify your account.",
         HttpStatus.Created
     );
 });

@@ -125,6 +125,17 @@ export class UserRepository {
 
         return user;
     }
+
+    async findPublicUserById(id: string): Promise<PublicUser | null> {
+        const [user] = await db
+            .select(PublicUserFields)
+            .from(users)
+            .where(eq(users.id, id))
+            .limit(1);
+        if (!user) return null;
+
+        return user;
+    }
 }
 
 export const userRepository = UserRepository.getInstance();
