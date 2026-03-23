@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { refreshTokens } from "@/db/schema";
 import type { NewRefreshToken } from "@/db/schema/users";
 import { ApiError, logger } from "@/lib/api";
+import { eq } from "drizzle-orm";
 import { PublicRefreshToken } from "./types";
 
 const COMPONENT = "REPOSITORY:REFRESH_TOKEN";
@@ -31,6 +32,35 @@ export class RefreshTokenRepository {
             );
 
         return token;
+    }
+
+    async deleteByHash(tokenHash: string): Promise<PublicRefreshToken | null> {
+        const [token] = await db
+            .delete(refreshTokens)
+            .where(eq(refreshTokens.tokenHash, tokenHash))
+            .returning();
+        if (!token) return null;
+
+        return token;
+    }
+
+    async rotateToken(
+        oldHash: string,
+        newData: NewRefreshToken
+    ): Promise<PublicRefreshToken | null> {
+        return db.transaction(async tx => {
+            const [oldToken] = await tx
+                .delete(refreshTokens)
+                .where(eq(refreshTokens.tokenHash, oldHash))
+                .returning();
+            if (!oldToken) return null;
+            if (new Date() > oldToken.expiresAt)
+                throw ApiError.unauthorized("Refresh token expired");
+
+            await tx.insert(refreshTokens).values(newData);
+
+            return oldToken;
+        });
     }
 }
 

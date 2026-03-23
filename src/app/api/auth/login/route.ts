@@ -19,7 +19,7 @@ export const POST = tryCatchWrapper(async (request: NextRequest) => {
 
     const response = successResponse<LoginResponseType>(
         { user },
-        "Login successful",
+        "Logged in successfully",
         HttpStatus.Ok
     );
     setAuthCookies(response, tokens);

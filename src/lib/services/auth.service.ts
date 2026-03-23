@@ -8,6 +8,7 @@ import {
     hashToken,
     parseDurationToSeconds,
     verifyPassword,
+    verifyRefreshToken,
     type TokenPair,
 } from "@/lib/auth";
 import { SendEmailParams, sendTransactionalEmail } from "@/lib/email";
@@ -126,6 +127,53 @@ export class AuthService {
 
         const { password: _, ...publicUser } = user;
         return { user: publicUser, tokens };
+    }
+
+    async logout(refreshToken: string): Promise<void> {
+        const tokenHash = hashToken(refreshToken);
+        // Delete refresh token from DB
+        await refreshTokenRepository.deleteByHash(tokenHash);
+    }
+
+    async refreshTokens(token: string): Promise<{ tokens: TokenPair }> {
+        // Verify refresh token
+        const payload = await verifyRefreshToken(token);
+
+        // Verify user
+        const user = await userRepository.findPublicUserById(payload.sub);
+        if (!user) throw ApiError.unauthorized("Invalid user");
+        const { id: userId, isVerified, isActive, role } = user;
+        if (!isVerified || !isActive)
+            throw ApiError.unauthorized("Invalid user");
+
+        // Generate new tokens
+        const tokens = await generateTokenPair({ id: userId, role });
+        // Prepare data for token rotation
+        const expiryInSeconds = parseDurationToSeconds(ENV.AUTH.REFRESH.EXPIRY);
+        const expiresAt = getDateFromMinutes(expiryInSeconds / 60);
+        const oldHash = hashToken(token);
+        const newHash = hashToken(tokens.refreshToken);
+
+        // Rotate tokens
+        const existingToken = await refreshTokenRepository.rotateToken(
+            oldHash,
+            { tokenHash: newHash, userId, expiresAt }
+        );
+        if (!existingToken)
+            throw ApiError.unauthorized("Invalid refresh token");
+        logger.info(
+            { component: COMPONENT, userId },
+            "Tokens refreshed successfully"
+        );
+
+        return { tokens };
+    }
+
+    async getMe(userId: string): Promise<PublicUser> {
+        const user = await userRepository.findPublicUserById(userId);
+        if (!user) throw ApiError.notFound("User not found");
+
+        return user;
     }
 
     private sendVerificationEmail(
