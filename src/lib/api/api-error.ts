@@ -41,6 +41,10 @@ export class ApiError extends Error {
         return new ApiError(message, HttpStatus.NotFound);
     }
 
+    static methodNotAllowed(message: string = "Method not allowed") {
+        return new ApiError(message, HttpStatus.MethodNotAllowed);
+    }
+
     static conflict(message: string = "Conflict") {
         return new ApiError(message, HttpStatus.Conflict);
     }

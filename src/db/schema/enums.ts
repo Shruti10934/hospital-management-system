@@ -13,7 +13,7 @@ import {
     TicketPriority,
     TicketStatus,
     UserRole,
-    VerificationTokenType,
+    VerificationCodeType,
 } from "@/db/types";
 import { pgEnum } from "drizzle-orm/pg-core";
 
@@ -23,9 +23,9 @@ export const bloodGroupEnum = pgEnum("blood_group", BloodGroup);
 
 // User Enums
 export const userRoleEnum = pgEnum("user_role", UserRole);
-export const verificationTokenTypeEnum = pgEnum(
+export const verificationCodeTypeEnum = pgEnum(
     "verification_token_type",
-    VerificationTokenType
+    VerificationCodeType
 );
 
 // Patient Enums
