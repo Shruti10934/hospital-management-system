@@ -13,6 +13,10 @@ import {
     Eye,
     EyeOff,
     Loader2,
+    CalendarCheck,
+    Clock,
+    HeartPulse,
+    FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -87,152 +91,221 @@ export default function LoginPage() {
             <SiteHeader />
 
             <main className="flex-1">
-                {/* Hero Section */}
-                <section className="py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-background to-pastel-green/30 dark:from-navy/40 dark:via-background dark:to-emerald-950/20">
-                    <div className="container mx-auto px-4 lg:px-8">
+                <section className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-blue-50 via-background to-pastel-green/30 dark:from-navy/40 dark:via-background dark:to-emerald-950/20">
+                    <div className="container mx-auto px-4 lg:px-8 py-4 lg:py-6">
                         {/* Back Button */}
-                        <Button asChild variant="ghost" className="mb-6">
+                        <Button asChild variant="ghost" className="mb-3">
                             <Link href="/">
                                 <ArrowLeft className="w-4 h-4 mr-2" />
                                 Back to Home
                             </Link>
                         </Button>
 
-                        {/* Page Header */}
-                        <div className="max-w-3xl mb-8">
-                            <span className="text-corporate-blue font-medium text-sm uppercase tracking-wider">
-                                Welcome Back
-                            </span>
-                            <h1 className="text-4xl lg:text-5xl font-bold text-foreground mt-2 mb-4">
-                                Sign In to Your Account
-                            </h1>
-                            <p className="text-lg text-muted-foreground">
-                                Access your healthcare dashboard, manage
-                                appointments, and more.
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                        {/* Split Layout: Left Text + Right Form */}
+                        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+                            {/* Left Side - Text / Branding */}
+                            <div className="flex flex-col justify-center space-y-8">
+                                <div className="space-y-4">
+                                    <span className="text-corporate-blue font-medium text-sm uppercase tracking-wider">
+                                        Welcome Back
+                                    </span>
+                                    <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+                                        Sign In to Your Account
+                                    </h1>
+                                    <p className="text-lg text-muted-foreground max-w-md">
+                                        Access your healthcare dashboard, manage
+                                        appointments, and stay connected with
+                                        your care team.
+                                    </p>
+                                </div>
 
-                {/* Login Form Section */}
-                <section className="py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-background to-pastel-green/30 dark:from-navy/40 dark:via-background dark:to-emerald-950/20">
-                    <div className="container mx-auto px-4 lg:px-8">
-                        <div className="max-w-xl mx-auto">
-                            <Card className="border-0 shadow-xl">
-                                <CardContent className="p-6 sm:p-8">
-                                    {/* User Type Tabs */}
-                                    <Tabs
-                                        value={userType}
-                                        onValueChange={val => {
-                                            setUserType(val as UserType);
-                                            // Reset login method for admin (email only)
-                                            if (val === "admin") {
-                                                setLoginMethod("email");
-                                            }
-                                        }}
-                                        className="w-full"
-                                    >
-                                        <TabsList className="grid w-full grid-cols-3 mb-6 h-14 p-1 bg-muted/50 rounded-xl">
-                                            <TabsTrigger
+                                {/* Feature Highlights */}
+                                <div className="space-y-5 pt-4">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-corporate-blue/10 flex items-center justify-center flex-shrink-0">
+                                            <CalendarCheck className="w-5 h-5 text-corporate-blue" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground">
+                                                Manage Appointments
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                View, reschedule, or cancel your
+                                                upcoming appointments.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                                            <FileText className="w-5 h-5 text-emerald-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground">
+                                                Health Records
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                Access your medical history,
+                                                prescriptions, and lab results.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                                            <Clock className="w-5 h-5 text-amber-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground">
+                                                Real-time Updates
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                Get instant notifications about
+                                                your appointments and reports.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-rose-500/10 flex items-center justify-center flex-shrink-0">
+                                            <HeartPulse className="w-5 h-5 text-rose-500" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-foreground">
+                                                Personalized Dashboard
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                A customized view of your health
+                                                journey at a glance.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Side - Login Form */}
+                            <div className="lg:sticky lg:top-24">
+                                <Card className="border-0 shadow-xl">
+                                    <CardContent className="p-6 sm:p-8">
+                                        {/* User Type Tabs */}
+                                        <Tabs
+                                            value={userType}
+                                            onValueChange={val => {
+                                                setUserType(val as UserType);
+                                                // Reset login method for admin (email only)
+                                                if (val === "admin") {
+                                                    setLoginMethod("email");
+                                                }
+                                            }}
+                                            className="w-full"
+                                        >
+                                            <TabsList className="grid w-full grid-cols-3 mb-6 h-14 p-1 bg-muted/50 rounded-xl">
+                                                <TabsTrigger
+                                                    value="patient"
+                                                    className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                >
+                                                    <User className="w-4 h-4" />
+                                                    <span className="hidden sm:inline">
+                                                        Patient
+                                                    </span>
+                                                </TabsTrigger>
+                                                <TabsTrigger
+                                                    value="doctor"
+                                                    className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                >
+                                                    <Stethoscope className="w-4 h-4" />
+                                                    <span className="hidden sm:inline">
+                                                        Doctor
+                                                    </span>
+                                                </TabsTrigger>
+                                                <TabsTrigger
+                                                    value="admin"
+                                                    className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                >
+                                                    <ShieldCheck className="w-4 h-4" />
+                                                    <span className="hidden sm:inline">
+                                                        Admin
+                                                    </span>
+                                                </TabsTrigger>
+                                            </TabsList>
+
+                                            {/* Patient Login Form */}
+                                            <TabsContent
                                                 value="patient"
-                                                className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                className="mt-0"
                                             >
-                                                <User className="w-4 h-4" />
-                                                <span className="hidden sm:inline">
-                                                    Patient
-                                                </span>
-                                            </TabsTrigger>
-                                            <TabsTrigger
+                                                <LoginForm
+                                                    userType="patient"
+                                                    loginMethod={loginMethod}
+                                                    setLoginMethod={
+                                                        setLoginMethod
+                                                    }
+                                                    formData={formData}
+                                                    handleInputChange={
+                                                        handleInputChange
+                                                    }
+                                                    showPassword={showPassword}
+                                                    setShowPassword={
+                                                        setShowPassword
+                                                    }
+                                                    isLoading={isLoading}
+                                                    handleLogin={handleLogin}
+                                                    showLoginMethodToggle={true}
+                                                />
+                                            </TabsContent>
+
+                                            {/* Doctor Login Form */}
+                                            <TabsContent
                                                 value="doctor"
-                                                className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                className="mt-0"
                                             >
-                                                <Stethoscope className="w-4 h-4" />
-                                                <span className="hidden sm:inline">
-                                                    Doctor
-                                                </span>
-                                            </TabsTrigger>
-                                            <TabsTrigger
+                                                <LoginForm
+                                                    userType="doctor"
+                                                    loginMethod={loginMethod}
+                                                    setLoginMethod={
+                                                        setLoginMethod
+                                                    }
+                                                    formData={formData}
+                                                    handleInputChange={
+                                                        handleInputChange
+                                                    }
+                                                    showPassword={showPassword}
+                                                    setShowPassword={
+                                                        setShowPassword
+                                                    }
+                                                    isLoading={isLoading}
+                                                    handleLogin={handleLogin}
+                                                    showLoginMethodToggle={true}
+                                                />
+                                            </TabsContent>
+
+                                            {/* Admin Login Form */}
+                                            <TabsContent
                                                 value="admin"
-                                                className="flex items-center gap-2 rounded-lg data-[state=active]:bg-corporate-blue data-[state=active]:text-white transition-all"
+                                                className="mt-0"
                                             >
-                                                <ShieldCheck className="w-4 h-4" />
-                                                <span className="hidden sm:inline">
-                                                    Admin
-                                                </span>
-                                            </TabsTrigger>
-                                        </TabsList>
-
-                                        {/* Patient Login Form */}
-                                        <TabsContent
-                                            value="patient"
-                                            className="mt-0"
-                                        >
-                                            <LoginForm
-                                                userType="patient"
-                                                loginMethod={loginMethod}
-                                                setLoginMethod={setLoginMethod}
-                                                formData={formData}
-                                                handleInputChange={
-                                                    handleInputChange
-                                                }
-                                                showPassword={showPassword}
-                                                setShowPassword={
-                                                    setShowPassword
-                                                }
-                                                isLoading={isLoading}
-                                                handleLogin={handleLogin}
-                                                showLoginMethodToggle={true}
-                                            />
-                                        </TabsContent>
-
-                                        {/* Doctor Login Form */}
-                                        <TabsContent
-                                            value="doctor"
-                                            className="mt-0"
-                                        >
-                                            <LoginForm
-                                                userType="doctor"
-                                                loginMethod={loginMethod}
-                                                setLoginMethod={setLoginMethod}
-                                                formData={formData}
-                                                handleInputChange={
-                                                    handleInputChange
-                                                }
-                                                showPassword={showPassword}
-                                                setShowPassword={
-                                                    setShowPassword
-                                                }
-                                                isLoading={isLoading}
-                                                handleLogin={handleLogin}
-                                                showLoginMethodToggle={true}
-                                            />
-                                        </TabsContent>
-
-                                        {/* Admin Login Form */}
-                                        <TabsContent
-                                            value="admin"
-                                            className="mt-0"
-                                        >
-                                            <LoginForm
-                                                userType="admin"
-                                                loginMethod="email"
-                                                setLoginMethod={setLoginMethod}
-                                                formData={formData}
-                                                handleInputChange={
-                                                    handleInputChange
-                                                }
-                                                showPassword={showPassword}
-                                                setShowPassword={
-                                                    setShowPassword
-                                                }
-                                                isLoading={isLoading}
-                                                handleLogin={handleLogin}
-                                                showLoginMethodToggle={false}
-                                            />
-                                        </TabsContent>
-                                    </Tabs>
-                                </CardContent>
-                            </Card>
+                                                <LoginForm
+                                                    userType="admin"
+                                                    loginMethod="email"
+                                                    setLoginMethod={
+                                                        setLoginMethod
+                                                    }
+                                                    formData={formData}
+                                                    handleInputChange={
+                                                        handleInputChange
+                                                    }
+                                                    showPassword={showPassword}
+                                                    setShowPassword={
+                                                        setShowPassword
+                                                    }
+                                                    isLoading={isLoading}
+                                                    handleLogin={handleLogin}
+                                                    showLoginMethodToggle={
+                                                        false
+                                                    }
+                                                />
+                                            </TabsContent>
+                                        </Tabs>
+                                    </CardContent>
+                                </Card>
+                            </div>
                         </div>
                     </div>
                 </section>
